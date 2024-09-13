@@ -11,10 +11,10 @@ const HomeScreen = ({state, dispatch}) => {
       
       {state.showForm && (
         <View style={styles.form}>
-          <TextInput style={styles.input} placeholder="Name" />
-          <TextInput style={styles.input} placeholder="Email" keyboardType="email-address" />
-          <TextInput style={styles.input} placeholder="Phone" keyboardType="phone-pad" />
-          <TouchableOpacity style={styles.button} onPress={() => dispatch({ type: 'SET_SCREEN', payload: 'categories' })}>
+          <TextInput style={styles.input} placeholder="Name" placeholderTextColor={'gray'}/>
+          <TextInput style={styles.input} placeholder="Email" placeholderTextColor={'gray'} keyboardType="email-address"/>
+          <TextInput style={styles.input} placeholder="Phone" placeholderTextColor={'gray'} keyboardType="phone-pad" />
+          <TouchableOpacity style={styles.button} placeholderTextColor={'gray'} onPress={() => dispatch({ type: 'SET_SCREEN', payload: 'categories' })}>
             <Text style={styles.buttonText}>Submit</Text>
           </TouchableOpacity>
         </View>
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
+    color: 'black',
   },
   form: {
     width: '100%',
@@ -45,10 +46,12 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     marginTop: 10,
+    marginBottom: 10,
   },
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
+    alignSelf: 'center',
   },
   input: {
     height: 40,
