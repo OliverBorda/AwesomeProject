@@ -14,7 +14,7 @@ const HomeScreen = ({state, dispatch}) => {
           <TextInput style={styles.input} placeholder="Name" />
           <TextInput style={styles.input} placeholder="Email" keyboardType="email-address" />
           <TextInput style={styles.input} placeholder="Phone" keyboardType="phone-pad" />
-          <TouchableOpacity style={styles.button} onPress={() => dispatch({ type: 'SET_SCREEN', payload: 'categories' })}>
+          <TouchableOpacity style={styles.button} onPress={() => dispatch({ type: 'SET_SCREEN', payload: 2 })}>
             <Text style={styles.buttonText}>Submit</Text>
           </TouchableOpacity>
         </View>
