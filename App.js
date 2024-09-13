@@ -1,12 +1,12 @@
 import React, { useReducer } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet, SafeAreaView } from 'react-native';
 import CartScreen from './src/views/CartScreen';
+import HomeScreen from './src/views/HomeScreen';
 import ProductsScreen from './src/views/ProductsScreen';
 import CategoriesScreen from './src/views/CategoriesScreen';
-import HomeScreen from './src/views/HomeScreen';
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView } from 'react-native';
 
 const initialState = {
-  screen: 'home',
+  screen: 1,
   previousScreen: null,
   showForm: false,
   selectedCategory: null,
@@ -20,7 +20,7 @@ const reducer = (state, action) => {
     case 'TOGGLE_FORM':
       return { ...state, showForm: !state.showForm };
     case 'SELECT_CATEGORY':
-      return { ...state, selectedCategory: action.payload, screen: 'products', previousScreen: state.screen };
+      return { ...state, selectedCategory: action.payload, screen: 3, previousScreen: state.screen };
     case 'ADD_TO_CART':
       const productInCart = state.cart.find(item => item.id === action.payload.id);
       if (productInCart) {
@@ -31,14 +31,14 @@ const reducer = (state, action) => {
               ? { ...item, quantity: item.quantity + 1 }
               : item
           ),
-          screen: 'cart',
+          screen: 4,
           previousScreen: state.screen
         };
       } else {
         return {
           ...state,
           cart: [...state.cart, { ...action.payload, quantity: 1 }],
-          screen: 'cart',
+          screen: 4,
           previousScreen: state.screen
         };
       }
@@ -68,8 +68,8 @@ const reducer = (state, action) => {
     case 'GO_BACK':
       return {
         ...state,
-        screen: state.previousScreen,
-        previousScreen: null
+        screen: state.screen - 1,
+        previousScreen: state.screen - 2
       };
     default:
       return state;
@@ -77,12 +77,12 @@ const reducer = (state, action) => {
 };
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  
+  console.log(state);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.centerContent}>
-          {state.screen !== 'home' && (
+          {state.screen !== 1 && (
             <TouchableOpacity
               style={styles.button}
               onPress={() => dispatch({ type: 'GO_BACK' })}
@@ -91,19 +91,19 @@ export default function App() {
             </TouchableOpacity>
           )}
         </View>
-        {state.screen === 'home' && (
+        {state.screen === 1 && (
           <HomeScreen state={state} dispatch={dispatch}/>
         )}
 
-        {state.screen === 'categories' && (
+        {state.screen === 2 && (
           <CategoriesScreen state={state} dispatch={dispatch}/>
         )}
 
-        {state.screen === 'products' && (
+        {state.screen === 3 && (
           <ProductsScreen state={state} dispatch={dispatch} />
         )}
 
-        {state.screen === 'cart' && (
+        {state.screen === 4 && (
           <CartScreen state={state} dispatch={dispatch}/>
         )}
       </ScrollView>
