@@ -1,19 +1,8 @@
-import React, { useState, useReducer } from 'react';
+import React, { useReducer } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet, SafeAreaView } from 'react-native';
-
-const categories = [
-  { id: 1, name: "Electronics", image: "https://via.placeholder.com/150" },
-  { id: 2, name: "Clothing", image: "https://via.placeholder.com/150" },
-  { id: 3, name: "Books", image: "https://via.placeholder.com/150" },
-  { id: 4, name: "Home & Garden", image: "https://via.placeholder.com/150" },
-];
-
-const products = [
-  { id: 1, name: "Smartphone", description: "Latest model", price: 999, image: "https://via.placeholder.com/150", category: 1 },
-  { id: 2, name: "Laptop", description: "Powerful performance", price: 1299, image: "https://via.placeholder.com/150", category: 1 },
-  { id: 3, name: "T-shirt", description: "Comfortable cotton", price: 19.99, image: "https://via.placeholder.com/150", category: 2 },
-  { id: 4, name: "Jeans", description: "Classic fit", price: 49.99, image: "https://via.placeholder.com/150", category: 2 },
-];
+import CartScreen from './src/views/CartScreen';
+import ProductsScreen from './src/views/ProductsScreen';
+import CategoriesScreen from './src/views/CategoriesScreen';
 
 const initialState = {
   screen: 'home',
@@ -85,10 +74,10 @@ const reducer = (state, action) => {
       return state;
   }
 };
-
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-
+  
+  console.log(state);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
@@ -123,86 +112,15 @@ export default function App() {
         )}
 
         {state.screen === 'categories' && (
-          <View>
-            <Text style={styles.sectionTitle}>Categories</Text>
-            <View style={styles.grid}>
-              {categories.map((category) => (
-                <TouchableOpacity
-                  key={category.id}
-                  style={styles.card}
-                  onPress={() => dispatch({ type: 'SELECT_CATEGORY', payload: category.id })}
-                >
-                  <Image source={{ uri: category.image }} style={styles.cardImage} />
-                  <Text style={styles.cardTitle}>{category.name}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </View>
+          <CategoriesScreen state={state} dispatch={dispatch}/>
         )}
 
         {state.screen === 'products' && (
-          <View>
-            <Text style={styles.sectionTitle}>Products</Text>
-            <View style={styles.grid}>
-              {products.filter(product => product.category === state.selectedCategory).map((product) => (
-                <TouchableOpacity
-                  key={product.id}
-                  style={styles.card}
-                  onPress={() => dispatch({ type: 'ADD_TO_CART', payload: product })}
-                >
-                  <Image source={{ uri: product.image }} style={styles.cardImage} />
-                  <Text style={styles.cardTitle}>{product.name}</Text>
-                  <Text style={styles.cardDescription}>{product.description}</Text>
-                  <Text style={styles.cardPrice}>${product.price.toFixed(2)}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </View>
+          <ProductsScreen state={state} dispatch={dispatch} />
         )}
 
         {state.screen === 'cart' && (
-          <View>
-            <Text style={styles.sectionTitle}>Shopping Cart</Text>
-            {state.cart.map((item, index) => (
-              <View key={index} style={styles.cartItem}>
-                <Image source={{ uri: item.image }} style={styles.cartItemImage} />
-                <View style={styles.cartItemDetails}>
-                  <Text style={styles.cartItemTitle}>{item.name}</Text>
-                  <Text style={styles.cartItemDescription}>{item.description}</Text>
-                  <Text style={styles.cartItemPrice}>${item.price.toFixed(2)}</Text>
-                  <View style={styles.quantityContainer}>
-                    <TouchableOpacity
-                      style={styles.quantityButton}
-                      onPress={() => dispatch({ type: 'DECREMENT_QUANTITY', payload: item.id })}
-                    >
-                      <Text style={styles.quantityButtonText}>-</Text>
-                    </TouchableOpacity>
-                    <Text style={styles.quantityText}>{item.quantity}</Text>
-                    <TouchableOpacity
-                      style={styles.quantityButton}
-                      onPress={() => dispatch({ type: 'INCREMENT_QUANTITY', payload: item.id })}
-                    >
-                      <Text style={styles.quantityButtonText}>+</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <TouchableOpacity
-                    style={styles.removeButton}
-                    onPress={() => dispatch({ type: 'REMOVE_FROM_CART', payload: item.id })}
-                  >
-                    <Text style={styles.removeButtonText}>Remove</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
-            ))}
-            <View style={styles.cartTotal}>
-              <Text style={styles.cartTotalText}>
-                Total: ${state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}
-              </Text>
-              <TouchableOpacity style={styles.button}>
-                <Text style={styles.buttonText}>Checkout</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+          <CartScreen state={state} dispatch={dispatch}/>
         )}
       </ScrollView>
     </SafeAreaView>
