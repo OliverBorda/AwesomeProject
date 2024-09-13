@@ -17,6 +17,7 @@ const products = [
 
 const initialState = {
   screen: 'home',
+  previousScreen: null,
   showForm: false,
   selectedCategory: null,
   cart: []
@@ -25,11 +26,11 @@ const initialState = {
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_SCREEN':
-      return { ...state, screen: action.payload };
+      return { ...state, screen: action.payload, previousScreen: state.screen };
     case 'TOGGLE_FORM':
       return { ...state, showForm: !state.showForm };
     case 'SELECT_CATEGORY':
-      return { ...state, selectedCategory: action.payload, screen: 'products' };
+      return { ...state, selectedCategory: action.payload, screen: 'products', previousScreen: state.screen };
     case 'ADD_TO_CART':
       const productInCart = state.cart.find(item => item.id === action.payload.id);
       if (productInCart) {
@@ -40,13 +41,15 @@ const reducer = (state, action) => {
               ? { ...item, quantity: item.quantity + 1 }
               : item
           ),
-          screen: 'cart'
+          screen: 'cart',
+          previousScreen: state.screen
         };
       } else {
         return {
           ...state,
           cart: [...state.cart, { ...action.payload, quantity: 1 }],
-          screen: 'cart'
+          screen: 'cart',
+          previousScreen: state.screen
         };
       }
     case 'REMOVE_FROM_CART':
@@ -72,6 +75,12 @@ const reducer = (state, action) => {
             : item
         ),
       };
+    case 'GO_BACK':
+      return {
+        ...state,
+        screen: state.previousScreen,
+        previousScreen: null
+      };
     default:
       return state;
   }
@@ -83,6 +92,16 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
+        <View style={styles.centerContent}>
+          {state.screen !== 'home' && (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => dispatch({ type: 'GO_BACK' })}
+            >
+              <Text style={styles.buttonText}>Back</Text>
+            </TouchableOpacity>
+          )}
+        </View>
         {state.screen === 'home' && (
           <View style={styles.centerContent}>
             <Text style={styles.title}>Welcome to Our Store</Text>
@@ -220,19 +239,19 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
-    textAlign: 'center',
     fontWeight: 'bold',
+  },
+  input: {
+    height: 40,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    width: '100%',
   },
   form: {
     width: '100%',
-    marginTop: 20,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 5,
   },
   grid: {
     flexDirection: 'row',
