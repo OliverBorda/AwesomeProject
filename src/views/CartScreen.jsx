@@ -4,16 +4,6 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 const CartScreen = ({ state, dispatch }) => {
 
     const styles = StyleSheet.create({
-        container: {
-            flex: 1,
-            backgroundColor: '#fff',
-        },
-        scrollView: {
-            padding: 20,
-        },
-        centerContent: {
-            alignItems: 'center',
-        },
         title: {
             fontSize: 24,
             fontWeight: 'bold',
@@ -34,51 +24,6 @@ const CartScreen = ({ state, dispatch }) => {
         buttonText: {
             color: '#fff',
             fontWeight: 'bold',
-        },
-        input: {
-            height: 40,
-            borderColor: '#ccc',
-            borderWidth: 1,
-            borderRadius: 5,
-            marginBottom: 10,
-            paddingHorizontal: 10,
-            width: '100%',
-        },
-        form: {
-            width: '100%',
-        },
-        grid: {
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-between',
-        },
-        card: {
-            width: '48%',
-            backgroundColor: '#f9f9f9',
-            padding: 10,
-            borderRadius: 5,
-            marginBottom: 20,
-            alignItems: 'center',
-        },
-        cardImage: {
-            width: 100,
-            height: 100,
-            marginBottom: 10,
-        },
-        cardTitle: {
-            fontSize: 16,
-            fontWeight: 'bold',
-            marginBottom: 5,
-        },
-        cardDescription: {
-            fontSize: 14,
-            color: '#666',
-            marginBottom: 5,
-        },
-        cardPrice: {
-            fontSize: 16,
-            fontWeight: 'bold',
-            color: '#333',
         },
         cartItem: {
             flexDirection: 'row',
@@ -148,7 +93,7 @@ const CartScreen = ({ state, dispatch }) => {
             fontWeight: 'bold',
         },
     });
-    
+
     return (
         <View>
             <Text style={styles.sectionTitle}>Shopping Cart</Text>
