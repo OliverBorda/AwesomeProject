@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet,
 import CartScreen from './src/views/CartScreen';
 import ProductsScreen from './src/views/ProductsScreen';
 import CategoriesScreen from './src/views/CategoriesScreen';
+import HomeScreen from './src/views/HomeScreen';
 
 const initialState = {
   screen: 'home',
@@ -92,23 +93,7 @@ export default function App() {
           )}
         </View>
         {state.screen === 'home' && (
-          <View style={styles.centerContent}>
-            <Text style={styles.title}>Welcome to Our Store</Text>
-            <TouchableOpacity style={styles.button} onPress={() => dispatch({ type: 'TOGGLE_FORM' })}>
-              <Text style={styles.buttonText}>Start Shopping</Text>
-            </TouchableOpacity>
-            
-            {state.showForm && (
-              <View style={styles.form}>
-                <TextInput style={styles.input} placeholder="Name" />
-                <TextInput style={styles.input} placeholder="Email" keyboardType="email-address" />
-                <TextInput style={styles.input} placeholder="Phone" keyboardType="phone-pad" />
-                <TouchableOpacity style={styles.button} onPress={() => dispatch({ type: 'SET_SCREEN', payload: 'categories' })}>
-                  <Text style={styles.buttonText}>Submit</Text>
-                </TouchableOpacity>
-              </View>
-            )}
-          </View>
+          <HomeScreen state={state} dispatch={dispatch}/>
         )}
 
         {state.screen === 'categories' && (
