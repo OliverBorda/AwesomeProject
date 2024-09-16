@@ -1,15 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
-const ProductsScreen = ({ state, dispatch }) => {
+const ProductsScreen = ({ state, setState }) => {
 
     const products = [
         { id: 1, name: "Smartphone", description: "Latest model", price: 999, image: "https://via.placeholder.com/150", category: 1 },
         { id: 2, name: "Laptop", description: "Powerful performance", price: 1299, image: "https://via.placeholder.com/150", category: 1 },
         { id: 3, name: "T-shirt", description: "Comfortable cotton", price: 19.99, image: "https://via.placeholder.com/150", category: 2 },
         { id: 4, name: "Jeans", description: "Classic fit", price: 49.99, image: "https://via.placeholder.com/150", category: 2 },
+        { id: 5, name: "Book 2", description: "Book", price: 29.99, image: "https://via.placeholder.com/150", category: 3 },
+        {id: 6, name: "Book 1", description: "Book", price: 29.99, image: "https://via.placeholder.com/150", category: 3 },
+        { id: 7, name: "Mower", description: "Mower", price: 199.99, image: "https://via.placeholder.com/150", category: 4 },
+        {id: 8, name: "Table", description: "Table", price: 69.99, image: "https://via.placeholder.com/150", category: 4 }
     ];
 
+    useEffect(()=>{
+        console.log('products');
+      },[])
     const styles = StyleSheet.create({
         sectionTitle: {
             fontSize: 20,
@@ -90,7 +97,7 @@ const ProductsScreen = ({ state, dispatch }) => {
                     <TouchableOpacity
                         key={product.id}
                         style={styles.card}
-                        onPress={() => dispatch({ type: 'ADD_TO_CART', payload: product })}
+                        onPress={() => setState({ type: 'ADD_TO_CART', payload: product })}
                     >
                         <Image source={{ uri: product.image }} style={styles.cardImage} />
                         <Text style={styles.cardTitle}>{product.name}</Text>

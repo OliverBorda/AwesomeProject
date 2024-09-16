@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
-const HomeScreen = ({state, dispatch}) => {
+const HomeScreen = ({state, setState}) => {
+  useEffect(()=>{
+    console.log('home');
+  },[])
   return (
     <View style={styles.centerContent}>
       <Text style={styles.title}>Welcome to Our Store</Text>
-      <TouchableOpacity style={styles.button} onPress={() => dispatch({ type: 'TOGGLE_FORM' })}>
+      <TouchableOpacity style={styles.button} onPress={() => setState({ type: 'TOGGLE_FORM' })}>
         <Text style={styles.buttonText}>Start Shopping</Text>
       </TouchableOpacity>
       
@@ -14,7 +17,7 @@ const HomeScreen = ({state, dispatch}) => {
           <TextInput style={styles.input} placeholder="Name" />
           <TextInput style={styles.input} placeholder="Email" keyboardType="email-address" />
           <TextInput style={styles.input} placeholder="Phone" keyboardType="phone-pad" />
-          <TouchableOpacity style={styles.button} onPress={() => dispatch({ type: 'SET_SCREEN', payload: 2 })}>
+          <TouchableOpacity style={styles.button} onPress={() => setState({ type: 'SET_SCREEN', payload: 2 })}>
             <Text style={styles.buttonText}>Submit</Text>
           </TouchableOpacity>
         </View>

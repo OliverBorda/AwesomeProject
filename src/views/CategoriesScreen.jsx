@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
-const CategoriesScreen = ({ state, dispatch }) => {
+const CategoriesScreen = ({ state, setState }) => {
 
     const categories = [
         { id: 1, name: "Electronics", image: "https://via.placeholder.com/150" },
@@ -10,6 +10,9 @@ const CategoriesScreen = ({ state, dispatch }) => {
         { id: 4, name: "Home & Garden", image: "https://via.placeholder.com/150" },
     ];
 
+    useEffect(()=>{
+        console.log('categories');
+      },[])
     const styles = StyleSheet.create({
         sectionTitle: {
             fontSize: 20,
@@ -55,7 +58,7 @@ const CategoriesScreen = ({ state, dispatch }) => {
                     <TouchableOpacity
                         key={category.id}
                         style={styles.card}
-                        onPress={() => dispatch({ type: 'SELECT_CATEGORY', payload: category.id })}
+                        onPress={() => setState({ type: 'SELECT_CATEGORY', payload: category.id })}
                     >
                         <Image source={{ uri: category.image }} style={styles.cardImage} />
                         <Text style={styles.cardTitle}>{category.name}</Text>

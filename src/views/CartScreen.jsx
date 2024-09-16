@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
-const CartScreen = ({ state, dispatch }) => {
+const CartScreen = ({ state, setState }) => {
+
+    useEffect(()=>{
+        console.log('cart');
+      },[])
 
     const styles = StyleSheet.create({
         title: {
@@ -107,21 +111,21 @@ const CartScreen = ({ state, dispatch }) => {
                         <View style={styles.quantityContainer}>
                             <TouchableOpacity
                                 style={styles.quantityButton}
-                                onPress={() => dispatch({ type: 'DECREMENT_QUANTITY', payload: item.id })}
+                                onPress={() => setState({ type: 'DECREMENT_QUANTITY', payload: item.id })}
                             >
                                 <Text style={styles.quantityButtonText}>-</Text>
                             </TouchableOpacity>
                             <Text style={styles.quantityText}>{item.quantity}</Text>
                             <TouchableOpacity
                                 style={styles.quantityButton}
-                                onPress={() => dispatch({ type: 'INCREMENT_QUANTITY', payload: item.id })}
+                                onPress={() => setState({ type: 'INCREMENT_QUANTITY', payload: item.id })}
                             >
                                 <Text style={styles.quantityButtonText}>+</Text>
                             </TouchableOpacity>
                         </View>
                         <TouchableOpacity
                             style={styles.removeButton}
-                            onPress={() => dispatch({ type: 'REMOVE_FROM_CART', payload: item.id })}
+                            onPress={() => setState({ type: 'REMOVE_FROM_CART', payload: item.id })}
                         >
                             <Text style={styles.removeButtonText}>Remove</Text>
                         </TouchableOpacity>

@@ -75,9 +75,9 @@ const reducer = (state, action) => {
       return state;
   }
 };
+
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  console.log(state);
+  const [state, setState] = useReducer(reducer, initialState);
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
@@ -85,26 +85,26 @@ export default function App() {
           {state.screen !== 1 && (
             <TouchableOpacity
               style={styles.button}
-              onPress={() => dispatch({ type: 'GO_BACK' })}
+              onPress={() => setState({ type: 'GO_BACK' })}
             >
               <Text style={styles.buttonText}>Back</Text>
             </TouchableOpacity>
           )}
         </View>
         {state.screen === 1 && (
-          <HomeScreen state={state} dispatch={dispatch}/>
+          <HomeScreen state={state} setState={setState}/>
         )}
 
         {state.screen === 2 && (
-          <CategoriesScreen state={state} dispatch={dispatch}/>
+          <CategoriesScreen state={state} setState={setState}/>
         )}
 
         {state.screen === 3 && (
-          <ProductsScreen state={state} dispatch={dispatch} />
+          <ProductsScreen state={state} setState={setState} />
         )}
 
         {state.screen === 4 && (
-          <CartScreen state={state} dispatch={dispatch}/>
+          <CartScreen state={state} setState={setState}/>
         )}
       </ScrollView>
     </SafeAreaView>
