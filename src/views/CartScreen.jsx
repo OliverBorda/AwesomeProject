@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View, ScrollView, Modal } from 'react-native';
+import { Image, StyleSheet, Text, TouchableOpacity, View, ScrollView, Modal, TextInput } from 'react-native';
 import { useOrder } from '../contexts/OrderContext';
 import { useCustomer } from '../contexts/CustomerContext';
 
@@ -8,14 +8,24 @@ const CartScreen = ({ navigation }) => {
     const { customerData, setCustomerData } = useCustomer();
 
     const [showModal, setShowModal] = useState(false);
+    const [localCustomerData, setLocalCustomerData] = useState(customerData);
+
+    // useEffect(() => {
+    //     console.log('El componente CartScreen se ha montado');
+    //     return () => {
+    //         // Código a ejecutar cuando el componente se desmonta
+    //         console.log('El componente CartScreen se ha desmontado');
+    //     };
+    // }, []); // El array vacío asegura que el efecto solo se ejecute en el montaje y desmontaje
+
+    // useEffect(() => {
+    //     console.log('El componente CartScreen se ha actualizado');
+    // }); // Sin dependencias asegura que se ejecute en cada renderizado
 
     useEffect(() => {
-        console.log('El componente CartScreen se ha montado');
-        return () => {
-           // Código a ejecutar cuando el componente se desmonta
-           console.log('El componente CartScreen se ha desmontado');
-       };
-   }, []); // El array vacío asegura que el efecto solo se ejecute en el montaje y desmontaje
+        // Sincronizar localCustomerData con customerData cuando customerData cambia
+        setLocalCustomerData(customerData);
+    }, [customerData]);
 
     const incrementQuantity = (index) => {
         const updatedItems = [...orderInfo.items];
@@ -62,22 +72,36 @@ const CartScreen = ({ navigation }) => {
         setShowModal(true);
     };
 
+    // const handlePay = () => {
+    //     // Limpiar el contexto de la orden
+    //     setOrderInfo({
+    //         items: [], // Restablecer la lista de artículos a un array vacío
+    //         total: 0,  // Restablecer el total a 0
+    //     });
+
+    //     // Limpiar el contexto del cliente
+    //     setCustomerData({
+    //         name: '',
+    //         email: '',
+    //         phone: '',
+    //     });
+
+    //     // Navegar a la pantalla de inicio
+    //     navigation.navigate('Home');
+    // };
+
     const handlePay = () => {
+        // Actualizar el contexto del cliente con los datos modificados
+        setCustomerData(localCustomerData);
+
         // Limpiar el contexto de la orden
         setOrderInfo({
-            items: [], // Restablecer la lista de artículos a un array vacío
-            total: 0,  // Restablecer el total a 0
-        });
-
-        // Limpiar el contexto del cliente
-        setCustomerData({
-            name: '',
-            email: '',
-            phone: '',
+            items: [],
+            total: 0,
         });
 
         // Navegar a la pantalla de inicio
-        navigation.navigate('Home');
+        // navigation.navigate('Home');
     };
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -137,9 +161,26 @@ const CartScreen = ({ navigation }) => {
                     <ScrollView style={styles.modalContent}>
                         <Text style={styles.modalTitle}>Order Summary</Text>
                         <Text style={styles.modalSubtitle}>Customer Info:</Text>
-                        <Text>Name: {customerData.name}</Text>
-                        <Text>Email: {customerData.email}</Text>
-                        <Text>Phone: {customerData.phone}</Text>
+                        <TextInput
+                            style={styles.input}
+                            value={localCustomerData.name}
+                            onChangeText={(text) => setLocalCustomerData({ ...localCustomerData, name: text })}
+                            placeholder="Name"
+                        />
+                        <TextInput
+                            style={styles.input}
+                            value={localCustomerData.email}
+                            onChangeText={(text) => setLocalCustomerData({ ...localCustomerData, email: text })}
+                            placeholder="Email"
+                            keyboardType="email-address"
+                        />
+                        <TextInput
+                            style={styles.input}
+                            value={localCustomerData.phone}
+                            onChangeText={(text) => setLocalCustomerData({ ...localCustomerData, phone: text })}
+                            placeholder="Phone"
+                            keyboardType="phone-pad"
+                        />
 
                         <Text style={styles.modalSubtitle}>Order Details:</Text>
                         {orderInfo.items.map((item, index) => (
@@ -154,7 +195,7 @@ const CartScreen = ({ navigation }) => {
                             </TouchableOpacity>
 
                             <TouchableOpacity style={styles.modalButton2} onPress={() => { setShowModal(false), handlePay() }}>
-                                <Text style={styles.modalButtonText}>Pagar</Text>
+                                <Text style={styles.modalButtonText}>Pay</Text>
                             </TouchableOpacity>
                         </View>
                     </ScrollView>

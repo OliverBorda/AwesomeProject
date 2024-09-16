@@ -100,13 +100,17 @@ const ProductsScreen = ({ route, navigation }) => {
         }
     ];
 
-    useEffect(() => {
-        console.log('El componente ProductsScreen se ha montado');
-        return () => {
-           // Código a ejecutar cuando el componente se desmonta
-           console.log('El componente ProductsScreen se ha desmontado');
-       };
-   }, []); // El array vacío asegura que el efecto solo se ejecute en el montaje y desmontaje
+    // useEffect(() => {
+    //     console.log('El componente ProductsScreen se ha montado');
+    //     return () => {
+    //         // Código a ejecutar cuando el componente se desmonta
+    //         console.log('El componente ProductsScreen se ha desmontado');
+    //     };
+    // }, []); // El array vacío asegura que el efecto solo se ejecute en el montaje y desmontaje
+
+    // useEffect(() => {
+    //     console.log('El componente ProductsScreen se ha actualizado');
+    // }); // Sin dependencias asegura que se ejecute en cada renderizado
 
     const handleProductPress = (product) => {
         const newItems = [...orderInfo.items, product];

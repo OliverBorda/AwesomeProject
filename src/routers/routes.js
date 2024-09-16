@@ -20,6 +20,7 @@ export default function Routes() {
                     component={HomeScreen}
                     options={{
                         headerShown: false,
+                        freezeOnBlur: true
                     }}
                     
                 />
@@ -28,16 +29,18 @@ export default function Routes() {
                     name="Categories"
                     component={CategoriesScreen}
                     options={{
-                        headerTitle: 'Categories',  // Título opcional en el header
-                        headerBackTitleVisible: false,  // Oculta el texto del botón de volver
+                        headerTitle: 'Categories', 
+                        headerBackTitleVisible: false, 
+                        freezeOnBlur: true
                     }}
                 />
                 <Stack.Screen
                     name="Products"
                     component={ProductsScreen}
                     options={{
-                        headerTitle: 'Products',  // Título opcional en el header
-                        headerBackTitleVisible: false,  // Oculta el texto del botón de volver
+                        headerTitle: 'Products',
+                        headerBackTitleVisible: false,
+                        freezeOnBlur: true
                     }}
                 />
 
@@ -45,8 +48,9 @@ export default function Routes() {
                     name="Cart"
                     component={CartScreen}
                     options={{
-                        headerTitle: 'Cart',  // Título opcional en el header
-                        headerBackTitleVisible: false,  // Oculta el texto del botón de volver
+                        headerTitle: 'Cart',
+                        headerBackTitleVisible: false,
+                        freezeOnBlur: true
                     }}
                 />
             </Stack.Navigator>
