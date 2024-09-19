@@ -10,18 +10,6 @@ const CartScreen = ({ navigation }) => {
     const [showModal, setShowModal] = useState(false);
     const [localCustomerData, setLocalCustomerData] = useState(customerData);
 
-    // useEffect(() => {
-    //     console.log('El componente CartScreen se ha montado');
-    //     return () => {
-    //         // Código a ejecutar cuando el componente se desmonta
-    //         console.log('El componente CartScreen se ha desmontado');
-    //     };
-    // }, []); // El array vacío asegura que el efecto solo se ejecute en el montaje y desmontaje
-
-    // useEffect(() => {
-    //     console.log('El componente CartScreen se ha actualizado');
-    // }); // Sin dependencias asegura que se ejecute en cada renderizado
-
     useEffect(() => {
         // Sincronizar localCustomerData con customerData cuando customerData cambia
         setLocalCustomerData(customerData);
@@ -72,24 +60,6 @@ const CartScreen = ({ navigation }) => {
         setShowModal(true);
     };
 
-    // const handlePay = () => {
-    //     // Limpiar el contexto de la orden
-    //     setOrderInfo({
-    //         items: [], // Restablecer la lista de artículos a un array vacío
-    //         total: 0,  // Restablecer el total a 0
-    //     });
-
-    //     // Limpiar el contexto del cliente
-    //     setCustomerData({
-    //         name: '',
-    //         email: '',
-    //         phone: '',
-    //     });
-
-    //     // Navegar a la pantalla de inicio
-    //     navigation.navigate('Home');
-    // };
-
     const handlePay = () => {
         // Actualizar el contexto del cliente con los datos modificados
         setCustomerData(localCustomerData);
@@ -101,7 +71,7 @@ const CartScreen = ({ navigation }) => {
         });
 
         // Navegar a la pantalla de inicio
-        // navigation.navigate('Home');
+        navigation.navigate('Home');
     };
     return (
         <ScrollView contentContainerStyle={styles.container}>

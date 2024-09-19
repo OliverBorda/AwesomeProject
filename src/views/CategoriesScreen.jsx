@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useCustomer } from '../contexts/CustomerContext';
 
 const CategoriesScreen = ({ navigation }) => {
 
@@ -11,26 +10,6 @@ const CategoriesScreen = ({ navigation }) => {
         { id: 4, name: 'Home & Garden', image: 'https://via.placeholder.com/150' },
     ];
 
-    const { customerData } = useCustomer();
-
-    useEffect(() => {
-        console.log('CategoriesScreen')
-    }, [customerData])
-
-
-    // useEffect(() => {
-    //     console.log('El componente CategoriesScreen se ha montado');
-
-    //     // Código a ejecutar cuando el componente se desmonta
-    //     return () => {
-    //         console.log('El componente CategoriesScreen se ha desmontado');
-    //     };
-    // }, []); // El array vacío asegura que el efecto solo se ejecute en el montaje y desmontaje
-
-    // useEffect(() => {
-    //     console.log('El componente CategoriesScreen se ha actualizado');
-    // }); // Sin dependencias asegura que se ejecute en cada renderizado
-
     const handleCategoryPress = (categoryId) => {
         // Navegar a la pantalla de productos, pasando el id de la categoría como parámetro
         navigation.navigate('Products', { categoryId });
@@ -38,7 +17,6 @@ const CategoriesScreen = ({ navigation }) => {
 
     return (
         <View>
-            <Text>{customerData.name}</Text>
             <View style={styles.grid}>
                 {categories.map((category) => (
                     <TouchableOpacity

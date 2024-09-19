@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useFocusEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useCustomer } from '../contexts/CustomerContext';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -14,18 +14,6 @@ const HomeScreen = ({ navigation }) => {
             phone: customerData.phone || ''
         }
     });
-
-    // useEffect(() => {
-    //     console.log('El componente HomeScreen se ha montado');
-    //      return () => {
-    //         // Código a ejecutar cuando el componente se desmonta
-    //         console.log('El componente HomeScreen se ha desmontado');
-    //     };
-    // }, []); // El array vacío asegura que el efecto solo se ejecute en el montaje y desmontaje
-
-    // useEffect(() => {
-    //     console.log('El componente HomeScreen se ha actualizado');
-    // }); // Sin dependencias asegura que se ejecute en cada renderizado
 
     useEffect(() => {
         // Actualiza los valores del formulario cuando `customerData` cambie

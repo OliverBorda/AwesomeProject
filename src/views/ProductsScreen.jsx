@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native';
 import { useOrder } from '../contexts/OrderContext';
-import { useCustomer } from '../contexts/CustomerContext';
 
 const ProductsScreen = ({ route, navigation }) => {
     const { categoryId } = route.params;
@@ -99,18 +98,6 @@ const ProductsScreen = ({ route, navigation }) => {
             "quantity": 1
         }
     ];
-
-    // useEffect(() => {
-    //     console.log('El componente ProductsScreen se ha montado');
-    //     return () => {
-    //         // Código a ejecutar cuando el componente se desmonta
-    //         console.log('El componente ProductsScreen se ha desmontado');
-    //     };
-    // }, []); // El array vacío asegura que el efecto solo se ejecute en el montaje y desmontaje
-
-    // useEffect(() => {
-    //     console.log('El componente ProductsScreen se ha actualizado');
-    // }); // Sin dependencias asegura que se ejecute en cada renderizado
 
     const handleProductPress = (product) => {
         const newItems = [...orderInfo.items, product];
