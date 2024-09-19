@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
-const CartScreen = ({ state, setState }) => {
+const CartScreen = ({ state, setState, time }) => {
 
+    
     useEffect(()=>{
-        console.log('cart');
-      },[])
+        let timeEnd = performance.now();
+        console.log((timeEnd - time).toFixed(2), 'cart');    
+    },[])
 
     const styles = StyleSheet.create({
         title: {

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
-const ProductsScreen = ({ state, setState }) => {
+const ProductsScreen = ({ state, setState, time }) => {
 
     const products = [
         { id: 1, name: "Smartphone", description: "Latest model", price: 999, image: "https://via.placeholder.com/150", category: 1 },
@@ -13,10 +13,13 @@ const ProductsScreen = ({ state, setState }) => {
         { id: 7, name: "Mower", description: "Mower", price: 199.99, image: "https://via.placeholder.com/150", category: 4 },
         {id: 8, name: "Table", description: "Table", price: 69.99, image: "https://via.placeholder.com/150", category: 4 }
     ];
-
+    
+    
     useEffect(()=>{
-        console.log('products');
-      },[])
+        let timeEnd = performance.now();
+        console.log((timeEnd - time).toFixed(2), 'products');
+    },[])
+
     const styles = StyleSheet.create({
         sectionTitle: {
             fontSize: 20,

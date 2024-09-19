@@ -78,6 +78,8 @@ const reducer = (state, action) => {
 
 export default function App() {
   const [state, setState] = useReducer(reducer, initialState);
+  let time = performance.now();
+  
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollView}>
@@ -92,19 +94,19 @@ export default function App() {
           )}
         </View>
         {state.screen === 1 && (
-          <HomeScreen state={state} setState={setState}/>
+          <HomeScreen state={state} setState={setState} time={time}/>
         )}
 
         {state.screen === 2 && (
-          <CategoriesScreen state={state} setState={setState}/>
+          <CategoriesScreen state={state} setState={setState} time={time}/>
         )}
 
         {state.screen === 3 && (
-          <ProductsScreen state={state} setState={setState} />
+          <ProductsScreen state={state} setState={setState} time={time}/>
         )}
 
         {state.screen === 4 && (
-          <CartScreen state={state} setState={setState}/>
+          <CartScreen state={state} setState={setState} time={time}/>
         )}
       </ScrollView>
     </SafeAreaView>
