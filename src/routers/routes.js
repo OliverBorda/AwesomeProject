@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -12,6 +12,14 @@ export default function Routes() {
 
     const Stack = createNativeStackNavigator();
 
+    useEffect(() => {
+        const startTime = performance.now(); // Registrar el inicio de la carga
+        return () => {
+            const endTime = performance.now(); // Registrar cuando el componente se desmonta
+            console.log(`Tiempo total de carga de la app: ${endTime - startTime} ms`);
+        };
+    }, []);
+
     return (
         <NavigationContainer>
             <Stack.Navigator>
@@ -20,7 +28,7 @@ export default function Routes() {
                     component={HomeScreen}
                     options={{
                         headerShown: false,
-                        freezeOnBlur: true
+                        // freezeOnBlur: true
                     }}
                     
                 />
@@ -31,7 +39,7 @@ export default function Routes() {
                     options={{
                         headerTitle: 'Categories', 
                         headerBackTitleVisible: false, 
-                        freezeOnBlur: true
+                        // freezeOnBlur: true
                     }}
                 />
                 <Stack.Screen
@@ -50,7 +58,7 @@ export default function Routes() {
                     options={{
                         headerTitle: 'Cart',
                         headerBackTitleVisible: false,
-                        freezeOnBlur: true
+                        // freezeOnBlur: true
                     }}
                 />
             </Stack.Navigator>

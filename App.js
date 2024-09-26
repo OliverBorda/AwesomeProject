@@ -7,6 +7,7 @@ export default function App() {
   return (
     <CustomerProvider>
       <OrderProvider>
+        {console.log('app')}
         <Routes />
       </OrderProvider>
     </CustomerProvider>

@@ -9,7 +9,20 @@ const CartScreen = ({ navigation }) => {
 
     const [showModal, setShowModal] = useState(false);
     const [localCustomerData, setLocalCustomerData] = useState(customerData);
+    const [renderTime, setRenderTime] = useState(null);
 
+    useEffect(() => {
+        const startTime = global.performance.now(); // Tiempo de inicio
+        console.log('CartScreen renderizado en', startTime, 'ms');
+
+        return () => {
+            const endTime = global.performance.now(); // Tiempo de finalización
+            setRenderTime(endTime - startTime);
+            console.log('2 CartScreen renderizado en', endTime - startTime, 'ms');
+        };
+    }, []);
+
+    console.log("CartScreen");
     useEffect(() => {
         // Sincronizar localCustomerData con customerData cuando customerData cambia
         setLocalCustomerData(customerData);
@@ -23,7 +36,6 @@ const CartScreen = ({ navigation }) => {
             quantity: (itemToUpdate.quantity || 1) + 1,
         };
         setOrderInfo((prevOrder) => ({
-            ...prevOrder,
             items: updatedItems,
             total: updatedItems.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0),
         }));
@@ -37,7 +49,6 @@ const CartScreen = ({ navigation }) => {
             quantity: Math.max((itemToUpdate.quantity || 1) - 1, 1),
         };
         setOrderInfo((prevOrder) => ({
-            ...prevOrder,
             items: updatedItems,
             total: updatedItems.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0),
         }));
@@ -58,6 +69,7 @@ const CartScreen = ({ navigation }) => {
 
     const handleCheckout = () => {
         setShowModal(true);
+        navigation.navigate('Home');
     };
 
     const handlePay = () => {
@@ -71,7 +83,7 @@ const CartScreen = ({ navigation }) => {
         });
 
         // Navegar a la pantalla de inicio
-        navigation.navigate('Home');
+        // navigation.navigate('Home');
     };
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -116,6 +128,9 @@ const CartScreen = ({ navigation }) => {
                     <Text style={styles.cartTotalText}>Total: ${orderInfo.total}</Text>
                     <TouchableOpacity style={styles.button} onPress={handleCheckout}>
                         <Text style={styles.buttonText}>Checkout</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Categories")}>
+                        <Text style={styles.buttonText}>Categories</Text>
                     </TouchableOpacity>
                 </View>
             )}

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native';
 import { useOrder } from '../contexts/OrderContext';
 
 const ProductsScreen = ({ route, navigation }) => {
     const { categoryId } = route.params;
     const { orderInfo, setOrderInfo } = useOrder();
+    const [renderTime, setRenderTime] = useState(null);
 
     const products = [
         {
@@ -98,6 +99,18 @@ const ProductsScreen = ({ route, navigation }) => {
             "quantity": 1
         }
     ];
+
+    useEffect(() => {
+        const startTime = global.performance.now(); // Tiempo de inicio
+        console.log('ProductsScreen renderizado en', startTime, 'ms');
+
+        return () => {
+            const endTime = global.performance.now(); // Tiempo de finalización
+            setRenderTime(endTime - startTime);
+            console.log('2 ProductsScreen renderizado en', endTime - startTime, 'ms');
+        };
+    }, []);
+    console.log("ProductsScreen")
 
     const handleProductPress = (product) => {
         const newItems = [...orderInfo.items, product];

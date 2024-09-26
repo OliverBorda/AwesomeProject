@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useCustomer } from '../contexts/CustomerContext';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -6,7 +6,8 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-nativ
 const HomeScreen = ({ navigation }) => {
     const [showForm, setShowForm] = useState(false); // Estado local para mostrar el formulario
     const { customerData, setCustomerData } = useCustomer();
-
+    const [renderTime, setRenderTime] = useState(null);
+    
     const { control, handleSubmit, formState: { errors }, reset } = useForm({
         defaultValues: {
             name: customerData.name || '',
@@ -16,20 +17,25 @@ const HomeScreen = ({ navigation }) => {
     });
 
     useEffect(() => {
-        // Actualiza los valores del formulario cuando `customerData` cambie
-        reset({
-            name: customerData.name || '',
-            email: customerData.email || '',
-            phone: customerData.phone || ''
-        });
-    }, [customerData, reset]);
+        const startTime = global.performance.now(); // Tiempo de inicio
+        console.log('HomeScreen renderizado en', startTime, 'ms');
 
-    const toggleForm = () => {
-        setShowForm(!showForm); // Alternar entre mostrar y ocultar el formulario
-    };
+        return () => {
+            const endTime = global.performance.now(); // Tiempo de finalización
+            setRenderTime(endTime - startTime);
+            console.log('2 HomeScreen renderizado en', endTime - startTime, 'ms');
+        };
+    }, []);
+
+    console.log("HomeScreen");
+
+    const toggleForm = useCallback(() => {
+        setShowForm(prevShowForm => !prevShowForm);
+    }, []);
 
     const onSubmit = (data) => {
         setCustomerData(data);
+        // navigation.replace('Categories');
         navigation.navigate('Categories');
     };
 
@@ -50,7 +56,7 @@ const HomeScreen = ({ navigation }) => {
                     <Controller
                         control={control}
                         name="name"
-                        rules={{ required: 'Name is required', maxLength: { value: 80, message: 'Name cannot exceed 80 characters' } }}
+                        // rules={{ required: 'Name is required', maxLength: { value: 80, message: 'Name cannot exceed 80 characters' } }}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <View>
                                 <TextInput
@@ -70,7 +76,7 @@ const HomeScreen = ({ navigation }) => {
                     <Controller
                         control={control}
                         name="email"
-                        rules={{ required: 'Email is required', pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Invalid email address' } }}
+                        // rules={{ required: 'Email is required', pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Invalid email address' } }}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <View>
                                 <TextInput
@@ -91,7 +97,7 @@ const HomeScreen = ({ navigation }) => {
                     <Controller
                         control={control}
                         name="phone"
-                        rules={{ required: 'Phone number is required', pattern: { value: /^\d+$/, message: 'Invalid phone number' } }}
+                        // rules={{ required: 'Phone number is required', pattern: { value: /^\d+$/, message: 'Invalid phone number' } }}
                         render={({ field: { onChange, onBlur, value } }) => (
                             <View>
                                 <TextInput

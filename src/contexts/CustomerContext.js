@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
 // Crear el contexto para los datos del cliente
 const CustomerContext = createContext();
@@ -10,6 +10,18 @@ export const CustomerProvider = ({ children }) => {
         email: '',
         phone: '',
     });
+    const [renderTime, setRenderTime] = useState(null);
+
+    // useEffect(() => {
+    //     const startTime = global.performance.now(); // Tiempo de inicio
+    //     console.log('CustomerContext renderizado en', startTime, 'ms');
+
+    //     return () => {
+    //         const endTime = global.performance.now(); // Tiempo de finalización
+    //         setRenderTime(endTime - startTime);
+    //         console.log('2 CustomerContext renderizado en', endTime - startTime, 'ms');
+    //     };
+    // }, []);
 
     return (
         <CustomerContext.Provider value={{ customerData, setCustomerData }}>
