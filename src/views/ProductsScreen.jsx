@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import UseOrderHook from '../hooks/UseOrderHook';
 
-const ProductsScreen = ({ state, setState, time }) => {
+const ProductsScreen = ({ state, setState, time, order }) => {
 
     const products = [
         { id: 1, name: "Smartphone", description: "Latest model", price: 999, image: "https://via.placeholder.com/150", category: 1 },
@@ -9,16 +10,22 @@ const ProductsScreen = ({ state, setState, time }) => {
         { id: 3, name: "T-shirt", description: "Comfortable cotton", price: 19.99, image: "https://via.placeholder.com/150", category: 2 },
         { id: 4, name: "Jeans", description: "Classic fit", price: 49.99, image: "https://via.placeholder.com/150", category: 2 },
         { id: 5, name: "Book 2", description: "Book", price: 29.99, image: "https://via.placeholder.com/150", category: 3 },
-        {id: 6, name: "Book 1", description: "Book", price: 29.99, image: "https://via.placeholder.com/150", category: 3 },
+        { id: 6, name: "Book 1", description: "Book", price: 29.99, image: "https://via.placeholder.com/150", category: 3 },
         { id: 7, name: "Mower", description: "Mower", price: 199.99, image: "https://via.placeholder.com/150", category: 4 },
-        {id: 8, name: "Table", description: "Table", price: 69.99, image: "https://via.placeholder.com/150", category: 4 }
+        { id: 8, name: "Table", description: "Table", price: 69.99, image: "https://via.placeholder.com/150", category: 4 }
     ];
+    console.log('products');
     
     
     useEffect(()=>{
         let timeEnd = performance.now();
         console.log((timeEnd - time).toFixed(2), 'products');
     },[])
+
+    const navigate = (product) => {
+        order.addToCart(product)
+        setState({ type: 'SET_SCREEN', payload: 4, screen: 3})
+    }
 
     const styles = StyleSheet.create({
         sectionTitle: {
@@ -100,7 +107,7 @@ const ProductsScreen = ({ state, setState, time }) => {
                     <TouchableOpacity
                         key={product.id}
                         style={styles.card}
-                        onPress={() => setState({ type: 'ADD_TO_CART', payload: product })}
+                        onPress={() => navigate(product)}
                     >
                         <Image source={{ uri: product.image }} style={styles.cardImage} />
                         <Text style={styles.cardTitle}>{product.name}</Text>

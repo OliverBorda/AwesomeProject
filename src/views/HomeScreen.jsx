@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 
-const HomeScreen = ({ state, setState, time }) => {
-
+const HomeScreen = ({ setState, time }) => {
+console.log('home');
 	useEffect(() => {
 		let timeEnd = performance.now();
 		console.log((timeEnd - time).toFixed(2), 'home');
@@ -11,11 +11,9 @@ const HomeScreen = ({ state, setState, time }) => {
 	return (
 		<View style={styles.centerContent}>
 			<Text style={styles.title}>Welcome to Our Store</Text>
-			<TouchableOpacity style={styles.button} onPress={() => setState({ type: 'TOGGLE_FORM' })}>
+			{/* <TouchableOpacity style={styles.button} onPress={() => setState({ type: 'TOGGLE_FORM' })}>
 				<Text style={styles.buttonText}>Start Shopping</Text>
-			</TouchableOpacity>
-
-			{state.showForm && (
+			</TouchableOpacity> */}
 				<View style={styles.form}>
 					<TextInput style={styles.input} placeholder="Name" />
 					<TextInput style={styles.input} placeholder="Email" keyboardType="email-address" />
@@ -24,7 +22,7 @@ const HomeScreen = ({ state, setState, time }) => {
 						<Text style={styles.buttonText}>Submit</Text>
 					</TouchableOpacity>
 				</View>
-			)}
+			
 		</View>
 	)
 }

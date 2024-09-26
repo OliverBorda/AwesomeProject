@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
-const CartScreen = ({ state, setState, time }) => {
+const CartScreen = ({ setState, time, order }) => {
 
-    
-    useEffect(()=>{
+    useEffect(() => {
         let timeEnd = performance.now();
-        console.log((timeEnd - time).toFixed(2), 'cart');    
-    },[])
+        console.log((timeEnd - time).toFixed(2), 'cart');
+    }, [])
+    console.log('cart');
+
 
     const styles = StyleSheet.create({
         title: {
@@ -103,7 +104,7 @@ const CartScreen = ({ state, setState, time }) => {
     return (
         <View>
             <Text style={styles.sectionTitle}>Shopping Cart</Text>
-            {state.cart.map((item, index) => (
+            {order.OrderData.cart.map((item, index) => (
                 <View key={index} style={styles.cartItem}>
                     <Image source={{ uri: item.image }} style={styles.cartItemImage} />
                     <View style={styles.cartItemDetails}>
@@ -113,21 +114,21 @@ const CartScreen = ({ state, setState, time }) => {
                         <View style={styles.quantityContainer}>
                             <TouchableOpacity
                                 style={styles.quantityButton}
-                                onPress={() => setState({ type: 'DECREMENT_QUANTITY', payload: item.id })}
+                                onPress={() => order.decrementQuantity(item.id)}
                             >
                                 <Text style={styles.quantityButtonText}>-</Text>
                             </TouchableOpacity>
                             <Text style={styles.quantityText}>{item.quantity}</Text>
                             <TouchableOpacity
                                 style={styles.quantityButton}
-                                onPress={() => setState({ type: 'INCREMENT_QUANTITY', payload: item.id })}
+                                onPress={() => order.incrementQuantity(item.id)}
                             >
                                 <Text style={styles.quantityButtonText}>+</Text>
                             </TouchableOpacity>
                         </View>
                         <TouchableOpacity
                             style={styles.removeButton}
-                            onPress={() => setState({ type: 'REMOVE_FROM_CART', payload: item.id })}
+                            onPress={() => order.removeCart(item.id)}
                         >
                             <Text style={styles.removeButtonText}>Remove</Text>
                         </TouchableOpacity>
@@ -136,10 +137,16 @@ const CartScreen = ({ state, setState, time }) => {
             ))}
             <View style={styles.cartTotal}>
                 <Text style={styles.cartTotalText}>
-                    Total: ${state.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}
+                    Total: ${order.OrderData.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}
                 </Text>
                 <TouchableOpacity style={styles.button}>
                     <Text style={styles.buttonText}>Checkout</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => setState({ type: 'SET_SCREEN', payload: 2, screen: 4 })}
+                >
+                    <Text style={styles.buttonText}>Go to Categories</Text>
                 </TouchableOpacity>
             </View>
         </View>

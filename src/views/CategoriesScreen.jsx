@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
-const CategoriesScreen = ({ state, setState, time }) => {
+const CategoriesScreen = ({ setState, time }) => {
 
     const categories = [
         { id: 1, name: "Electronics", image: "https://via.placeholder.com/150" },
@@ -15,6 +15,7 @@ const CategoriesScreen = ({ state, setState, time }) => {
         let timeEnd = performance.now();
         console.log((timeEnd - time).toFixed(2), 'categories');
     },[])
+    console.log('categories');
 
     const styles = StyleSheet.create({
         sectionTitle: {
