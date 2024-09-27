@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, StyleSheet, Text, View } from 'react-native'
+import CategoriesCard from '../Components/CategoriesCard';
 
 const CategoriesScreen = ({ setState, time }) => {
 
@@ -10,12 +11,11 @@ const CategoriesScreen = ({ setState, time }) => {
         { id: 4, name: "Home & Garden", image: "https://via.placeholder.com/150" },
     ];
 
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         let timeEnd = performance.now();
         console.log((timeEnd - time).toFixed(2), 'categories');
-    },[])
-    console.log('categories');
+    }, [])
 
     const styles = StyleSheet.create({
         sectionTitle: {
@@ -34,40 +34,28 @@ const CategoriesScreen = ({ setState, time }) => {
             padding: 10,
             borderRadius: 5,
             marginBottom: 20,
+            marginHorizontal: 10,
             alignItems: 'center',
         },
-        cardImage: {
-            width: 100,
-            height: 100,
-            marginBottom: 10,
-        },
-        cardTitle: {
-            fontSize: 16,
-            fontWeight: 'bold',
-            marginBottom: 5,
-        },
-        cartItem: {
-            flexDirection: 'row',
-            marginBottom: 20,
-            borderBottomWidth: 1,
-            borderBottomColor: '#ddd',
-            paddingBottom: 10,
-        },
     });
+
     return (
         <View>
             <Text style={styles.sectionTitle}>Categories</Text>
             <View style={styles.grid}>
-                {categories.map((category) => (
-                    <TouchableOpacity
-                        key={category.id}
-                        style={styles.card}
-                        onPress={() => setState({ type: 'SELECT_CATEGORY', payload: category.id })}
-                    >
-                        <Image source={{ uri: category.image }} style={styles.cardImage} />
-                        <Text style={styles.cardTitle}>{category.name}</Text>
-                    </TouchableOpacity>
-                ))}
+                <FlatList
+                    data={categories}
+                    keyExtractor={item => item.id}
+                    numColumns={2}
+                    contentContainerStyle={{ alignItems: "center", padding: (0, 10) }}
+                    renderItem={({item, index})=>
+                        <CategoriesCard 
+                            category={item} 
+                            setState={setState} 
+                            index={index}
+                        />
+                    }
+                />
             </View>
         </View>
     )

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import ProductsCartCard from '../Components/ProductsCartCard';
 
 const CartScreen = ({ setState, time, order }) => {
 
@@ -104,37 +105,20 @@ const CartScreen = ({ setState, time, order }) => {
     return (
         <View>
             <Text style={styles.sectionTitle}>Shopping Cart</Text>
-            {order.OrderData.cart.map((item, index) => (
-                <View key={index} style={styles.cartItem}>
-                    <Image source={{ uri: item.image }} style={styles.cartItemImage} />
-                    <View style={styles.cartItemDetails}>
-                        <Text style={styles.cartItemTitle}>{item.name}</Text>
-                        <Text style={styles.cartItemDescription}>{item.description}</Text>
-                        <Text style={styles.cartItemPrice}>${item.price.toFixed(2)}</Text>
-                        <View style={styles.quantityContainer}>
-                            <TouchableOpacity
-                                style={styles.quantityButton}
-                                onPress={() => order.decrementQuantity(item.id)}
-                            >
-                                <Text style={styles.quantityButtonText}>-</Text>
-                            </TouchableOpacity>
-                            <Text style={styles.quantityText}>{item.quantity}</Text>
-                            <TouchableOpacity
-                                style={styles.quantityButton}
-                                onPress={() => order.incrementQuantity(item.id)}
-                            >
-                                <Text style={styles.quantityButtonText}>+</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <TouchableOpacity
-                            style={styles.removeButton}
-                            onPress={() => order.removeCart(item.id)}
-                        >
-                            <Text style={styles.removeButtonText}>Remove</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            ))}
+            <View style={{width: '100%'}}>
+                <FlatList
+                    data={order.OrderData.cart}
+                    keyExtractor={item => item.id}
+                    contentContainerStyle={{ alignItems: "center", padding: (0, 10) }}
+                    renderItem={({item, index})=>
+                        <ProductsCartCard
+                            item={item} 
+                            order={order} 
+                            index={item.id}
+                        />
+                    }
+                />
+            </View>
             <View style={styles.cartTotal}>
                 <Text style={styles.cartTotalText}>
                     Total: ${order.OrderData.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}

@@ -41,33 +41,31 @@ export default function App() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView contentContainerStyle={styles.scrollView}>
-                <View style={styles.centerContent}>
-                    {state.screen !== 1 && (
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={() => setState({ type: 'GO_BACK' })}
-                        >
-                            <Text style={styles.buttonText}>Back</Text>
-                        </TouchableOpacity>
-                    )}
-                </View>
-                {state.screen === 1 && (
-                    <HomeScreen state={state} setState={setState} time={time} order={order} />
+            <View style={styles.centerContent}>
+                {state.screen !== 1 && (
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => setState({ type: 'GO_BACK' })}
+                    >
+                        <Text style={styles.buttonText}>Back</Text>
+                    </TouchableOpacity>
                 )}
+            </View>
+            {state.screen === 1 && (
+                <HomeScreen state={state} setState={setState} time={time} order={order} />
+            )}
 
-                {state.screen === 2 && (
-                    <CategoriesScreen state={state} setState={setState} time={time} order={order} />
-                )}
+            {state.screen === 2 && (
+                <CategoriesScreen state={state} setState={setState} time={time} order={order} />
+            )}
 
-                {state.screen === 3 && (
-                    <ProductsScreen state={state} setState={setState} time={time} order={order} />
-                )}
+            {state.screen === 3 && (
+                <ProductsScreen state={state} setState={setState} time={time} order={order} />
+            )}
 
-                {state.screen === 4 && (
-                    <CartScreen state={state} setState={setState} time={time} order={order} />
-                )}
-            </ScrollView>
+            {state.screen === 4 && (
+                <CartScreen state={state} setState={setState} time={time} order={order} />
+            )}
         </SafeAreaView>
     );
 }
@@ -76,8 +74,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-    },
-    scrollView: {
         padding: 20,
     },
     centerContent: {

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import UseOrderHook from '../hooks/UseOrderHook';
+import { FlatList, StyleSheet, Text, View } from 'react-native'
+import ProductsCard from '../Components/ProductsCard';
 
 const ProductsScreen = ({ state, setState, time, order }) => {
 
@@ -14,17 +14,16 @@ const ProductsScreen = ({ state, setState, time, order }) => {
         { id: 7, name: "Mower", description: "Mower", price: 199.99, image: "https://via.placeholder.com/150", category: 4 },
         { id: 8, name: "Table", description: "Table", price: 69.99, image: "https://via.placeholder.com/150", category: 4 }
     ];
-    console.log('products');
-    
-    
-    useEffect(()=>{
+
+
+    useEffect(() => {
         let timeEnd = performance.now();
         console.log((timeEnd - time).toFixed(2), 'products');
-    },[])
+    }, [])
 
     const navigate = (product) => {
         order.addToCart(product)
-        setState({ type: 'SET_SCREEN', payload: 4, screen: 3})
+        setState({ type: 'SET_SCREEN', payload: 4, screen: 3 })
     }
 
     const styles = StyleSheet.create({
@@ -98,23 +97,23 @@ const ProductsScreen = ({ state, setState, time, order }) => {
             marginTop: 5,
         },
     });
-    
+
     return (
         <View>
             <Text style={styles.sectionTitle}>Products</Text>
             <View style={styles.grid}>
-                {products.filter(product => product.category === state.selectedCategory).map((product) => (
-                    <TouchableOpacity
-                        key={product.id}
-                        style={styles.card}
-                        onPress={() => navigate(product)}
-                    >
-                        <Image source={{ uri: product.image }} style={styles.cardImage} />
-                        <Text style={styles.cardTitle}>{product.name}</Text>
-                        <Text style={styles.cardDescription}>{product.description}</Text>
-                        <Text style={styles.cardPrice}>${product.price.toFixed(2)}</Text>
-                    </TouchableOpacity>
-                ))}
+                <FlatList
+                    data={products.filter(product => product.category === state.selectedCategory)}
+                    keyExtractor={item => item.id}
+                    numColumns={2}
+                    contentContainerStyle={{ alignItems: "center", padding: (0, 10) }}
+                    renderItem={({item})=>
+                        <ProductsCard 
+                            product={item} 
+                            navigate={navigate} 
+                        />
+                    }
+                />
             </View>
         </View>
     )
