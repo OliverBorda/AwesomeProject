@@ -1,20 +1,12 @@
 import React, { useEffect } from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import ProductsCard from '../Components/ProductsCard';
+import { useSelector } from 'react-redux';
 
 const ProductsScreen = ({ state, setState, time, order }) => {
 
-    const products = [
-        { id: 1, name: "Smartphone", description: "Latest model", price: 999, image: "https://via.placeholder.com/150", category: 1 },
-        { id: 2, name: "Laptop", description: "Powerful performance", price: 1299, image: "https://via.placeholder.com/150", category: 1 },
-        { id: 3, name: "T-shirt", description: "Comfortable cotton", price: 19.99, image: "https://via.placeholder.com/150", category: 2 },
-        { id: 4, name: "Jeans", description: "Classic fit", price: 49.99, image: "https://via.placeholder.com/150", category: 2 },
-        { id: 5, name: "Book 2", description: "Book", price: 29.99, image: "https://via.placeholder.com/150", category: 3 },
-        { id: 6, name: "Book 1", description: "Book", price: 29.99, image: "https://via.placeholder.com/150", category: 3 },
-        { id: 7, name: "Mower", description: "Mower", price: 199.99, image: "https://via.placeholder.com/150", category: 4 },
-        { id: 8, name: "Table", description: "Table", price: 69.99, image: "https://via.placeholder.com/150", category: 4 }
-    ];
-
+    const products = useSelector((state) => state.products);
+    const randomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
 
     useEffect(() => {
         let timeEnd = performance.now();
@@ -42,7 +34,7 @@ const ProductsScreen = ({ state, setState, time, order }) => {
         },
         card: {
             width: '48%',
-            backgroundColor: '#f9f9f9',
+            backgroundColor: randomColor,
             padding: 10,
             borderRadius: 5,
             marginBottom: 20,
@@ -103,14 +95,13 @@ const ProductsScreen = ({ state, setState, time, order }) => {
             <Text style={styles.sectionTitle}>Products</Text>
             <View style={styles.grid}>
                 <FlatList
-                    data={products.filter(product => product.category === state.selectedCategory)}
+                    data={products}
                     keyExtractor={item => item.id}
                     numColumns={2}
                     contentContainerStyle={{ alignItems: "center", padding: (0, 10) }}
                     renderItem={({item})=>
                         <ProductsCard 
                             product={item} 
-                            navigate={navigate} 
                         />
                     }
                 />

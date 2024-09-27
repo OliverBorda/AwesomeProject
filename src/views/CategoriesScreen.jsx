@@ -1,8 +1,19 @@
 import React, { useEffect } from 'react'
 import { FlatList, StyleSheet, Text, View } from 'react-native'
 import CategoriesCard from '../Components/CategoriesCard';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+    setCategories,
+    addTocart,
+    increaseQuantity,
+    decreaseQuantity,
+    removeFromcartByID
+  } from '../../cartSlice'; 
 
 const CategoriesScreen = ({ setState, time }) => {
+    const screen = useSelector((state) => state.screen);
+    const products = useSelector((state) => state.products);
+    const dispatch = useDispatch();
 
     const categories = [
         { id: 1, name: "Electronics", image: "https://via.placeholder.com/150" },
@@ -50,6 +61,7 @@ const CategoriesScreen = ({ setState, time }) => {
                     contentContainerStyle={{ alignItems: "center", padding: (0, 10) }}
                     renderItem={({item, index})=>
                         <CategoriesCard 
+                            id={item.id}
                             category={item} 
                             setState={setState} 
                             index={index}

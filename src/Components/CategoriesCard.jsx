@@ -1,7 +1,24 @@
 import React from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { useSelector, useDispatch } from 'react-redux';
+import {
+    setCategories,
+    addTocart,
+    increaseQuantity,
+    decreaseQuantity,
+    removeFromcartByID
+  } from '../../cartSlice'; 
 
-const CategoriesCard = ({category, index, setState }) => {
+const CategoriesCard = ({category, index, id }) => {
+    const screen = useSelector((state) => state.screen);
+    const products = useSelector((state) => state.products);
+    const dispatch = useDispatch();
+
+    const addCategories = (id) => {
+        dispatch(setCategories(id));
+        console.log("categoriesID",id)
+      };
+
     const styles = StyleSheet.create({
         card: {
             width: '48%',
@@ -28,7 +45,8 @@ const CategoriesCard = ({category, index, setState }) => {
         <TouchableOpacity
             style={styles.card}
             key={index}
-            onPress={() => setState({ type: 'SELECT_CATEGORY', payload: category.id })}
+            id={id}
+            onPress={() => addCategories(id)}
         >
             <Image source={{ uri: category.image }} style={styles.cardImage} />
             <Text style={styles.cardTitle}>{category.name}</Text>

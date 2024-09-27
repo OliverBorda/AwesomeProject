@@ -2,70 +2,68 @@ import React, { useEffect, useReducer } from 'react';
 import CartScreen from './src/views/CartScreen';
 import HomeScreen from './src/views/HomeScreen';
 import ProductsScreen from './src/views/ProductsScreen';
-import CategoriesScreen from './src/views/CategoriesScreen';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, SafeAreaView } from 'react-native';
 import UseOrderHook from './src/hooks/UseOrderHook';
-
-const initialState = {
-    screen: 1,
-    previousScreen: null,
-    selectedCategory: null,
-};
+import { useSelector, useDispatch } from 'react-redux';
+import {
+    setScreen,
+    goBack,
+  } from './cartSlice'; 
+import CategoriesScreen from './src/views/CategoriesScreen';
 
 
 export default function App() {
-    const order = UseOrderHook();
-    const reducer = (state, action) => {
-        switch (action.type) {
-            case 'SET_SCREEN':
-                order.addToOrder()
-                return { ...state, screen: action.payload, previousScreen: state.screen };
-            case 'TOGGLE_FORM':
-                return { ...state, showForm: !state.showForm };
-            case 'SELECT_CATEGORY':
-                return { ...state, selectedCategory: action.payload, screen: 3, previousScreen: state.screen };
-            case 'GO_BACK':
-                return {
-                    ...state,
-                    screen: state.screen - 1,
-                    previousScreen: state.screen - 2
-                };
-            default:
-                return state;
-        }
-    };
-    const [state, setState] = useReducer(reducer, initialState);
-    let time = performance.now();
-    console.log('app');
-
+    const screen = useSelector((state) => state.screen);
+    const dispatch = useDispatch();
 
     return (
         <SafeAreaView style={styles.container}>
+
+        <View style={{ flexDirection: "row"}}>
+
             <View style={styles.centerContent}>
-                {state.screen !== 1 && (
+                {screen !== 1 && (
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => setState({ type: 'GO_BACK' })}
+                        onPress={() => dispatch(setScreen(1))}
                     >
-                        <Text style={styles.buttonText}>Back</Text>
+                        <Text style={styles.buttonText}>Home</Text>
                     </TouchableOpacity>
                 )}
             </View>
-            {state.screen === 1 && (
-                <HomeScreen state={state} setState={setState} time={time} order={order} />
-            )}
 
-            {state.screen === 2 && (
-                <CategoriesScreen state={state} setState={setState} time={time} order={order} />
-            )}
+            <View style={styles.centerContent}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => dispatch(setScreen(3))}
+                    >
+                        <Text style={styles.buttonText}>Products</Text>
+                    </TouchableOpacity>
+                
+            </View>
 
-            {state.screen === 3 && (
-                <ProductsScreen state={state} setState={setState} time={time} order={order} />
-            )}
-
-            {state.screen === 4 && (
-                <CartScreen state={state} setState={setState} time={time} order={order} />
-            )}
+            <View style={styles.centerContent}>
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={() => dispatch(setScreen(4))}
+                    >
+                        <Text style={styles.buttonText}>CART</Text>
+                    </TouchableOpacity>
+                
+            </View>
+          {screen !== 1 && (
+               <TouchableOpacity
+             style={styles.button}
+                onPress={() => dispatch(goBack())}
+              >
+                <Text style={styles.buttonText}>Back</Text>
+               </TouchableOpacity>         )}
+          </View>
+         {screen === 1 && <HomeScreen />}
+         {screen === 2 && <CategoriesScreen />}
+         {screen === 3 && <ProductsScreen />}
+         {screen === 4 && <CartScreen />}
+          
         </SafeAreaView>
     );
 }
@@ -213,3 +211,62 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
 });
+
+
+// screen: 1,
+//     previousScreen: null,
+
+
+
+
+
+
+
+
+// setScreen: (state, action) => {
+//      state.previousScreen = state.screen;
+//      state.screen = action.payload;
+//     },
+//     goBack: (state) => {
+//      state.screen = state.previousScreen || 1;
+//     },
+
+
+
+
+
+// {screen !== 1 && (
+//             <TouchableOpacity
+//              style={styles.button}
+//              onPress={() => dispatch(goBack())}
+//             >
+//              <Text style={styles.buttonText}>Back</Text>
+//             </TouchableOpacity>
+//          )}
+
+//          <TouchableOpacity
+//             style={styles.button}
+//             onPress={() => dispatch(setScreen(2))}
+//          >
+//             <Text style={styles.buttonText}>Go to Categories</Text>
+//          </TouchableOpacity>
+
+//          <TouchableOpacity
+//             style={styles.button}
+//             onPress={() => dispatch(setScreen(3))}
+//          >
+//             <Text style={styles.buttonText}>Go to Products</Text>
+//          </TouchableOpacity>
+
+//          <TouchableOpacity
+//             style={styles.button}
+//             onPress={() => dispatch(setScreen(4))}
+//          >
+//             <Text style={styles.buttonText}>Go to Cart</Text>
+//          </TouchableOpacity>
+//         </View>
+
+//         {screen === 1 && <HomeScreen />}
+//         {screen === 2 && <CategoriesScreen />}
+//         {screen === 3 && <ProductsScreen />}
+//         {screen === 4 && <CartScreen />}

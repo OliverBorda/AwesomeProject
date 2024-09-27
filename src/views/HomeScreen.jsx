@@ -1,27 +1,35 @@
 import React, { useEffect } from 'react'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { useSelector, useDispatch } from 'react-redux';
+import {
+    setScreen,
+    increaseQuantity,
+    decreaseQuantity,
+    removeFromcartByID
+  } from '../../cartSlice'; 
 
-const HomeScreen = ({ setState, time }) => {
-console.log('home');
-	useEffect(() => {
-		let timeEnd = performance.now();
-		console.log((timeEnd - time).toFixed(2), 'home');
-	}, [])
+const HomeScreen = () => {
+	const screen = useSelector((state) => state.screen);
+    const dispatch = useDispatch();
+console.log('homeScreen', screen);
+
 
 	return (
 		<View style={styles.centerContent}>
+			<TouchableOpacity onPress={() => setScreen(2)}><Text style={styles.buttonText}>Start Shopping</Text></TouchableOpacity>
 			<Text style={styles.title}>Welcome to Our Store</Text>
-			{/* <TouchableOpacity style={styles.button} onPress={() => setState({ type: 'TOGGLE_FORM' })}>
+			<TouchableOpacity style={styles.button}  onPress={() => dispatch(setScreen(3))}>
+			
 				<Text style={styles.buttonText}>Start Shopping</Text>
-			</TouchableOpacity> */}
-				<View style={styles.form}>
+			</TouchableOpacity>
+				{/* <View style={styles.form}>
 					<TextInput style={styles.input} placeholder="Name" />
 					<TextInput style={styles.input} placeholder="Email" keyboardType="email-address" />
 					<TextInput style={styles.input} placeholder="Phone" keyboardType="phone-pad" />
-					<TouchableOpacity style={styles.button} onPress={() => setState({ type: 'SET_SCREEN', payload: 2 })}>
+					<TouchableOpacity style={styles.button} onPress={() => setScreen(2)}>
 						<Text style={styles.buttonText}>Submit</Text>
 					</TouchableOpacity>
-				</View>
+				</View> */}
 			
 		</View>
 	)
@@ -31,6 +39,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#fff',
+		width: "100%",
 	},
 	centerContent: {
 		alignItems: 'center',

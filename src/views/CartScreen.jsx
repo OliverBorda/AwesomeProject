@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react'
-import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import ProductsCartCard from '../Components/ProductsCartCard';
+import { useSelector } from 'react-redux';
 
-const CartScreen = ({ setState, time, order }) => {
 
-    useEffect(() => {
-        let timeEnd = performance.now();
-        console.log((timeEnd - time).toFixed(2), 'cart');
-    }, [])
+const CartScreen = () => {
+
     console.log('cart');
-
+    const screen = useSelector((state) => state.screen);
+    const grandTotal = useSelector((state) => state. grandTotal);
+    const shoppingCart = useSelector((state) => state.shoppingCart);
+    const randomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
+    
 
     const styles = StyleSheet.create({
         title: {
@@ -24,7 +26,7 @@ const CartScreen = ({ setState, time, order }) => {
             marginBottom: 10,
         },
         button: {
-            backgroundColor: '#007AFF',
+            backgroundColor: randomColor,
             padding: 10,
             borderRadius: 5,
             marginTop: 10,
@@ -102,37 +104,28 @@ const CartScreen = ({ setState, time, order }) => {
         },
     });
 
-    return (
+return (
+        
         <View>
+            <View style={styles.cartTotal}>
+                <Text style={styles.cartTotalText}>
+                    Total: ${grandTotal}
+                </Text>
+            </View>
             <Text style={styles.sectionTitle}>Shopping Cart</Text>
             <View style={{width: '100%'}}>
                 <FlatList
-                    data={order.OrderData.cart}
+                    data={shoppingCart}
                     keyExtractor={item => item.id}
-                    contentContainerStyle={{ alignItems: "center", padding: (0, 10) }}
                     renderItem={({item, index})=>
                         <ProductsCartCard
-                            item={item} 
-                            order={order} 
-                            index={item.id}
+                        item={item}
+                        index={index}
                         />
                     }
                 />
             </View>
-            <View style={styles.cartTotal}>
-                <Text style={styles.cartTotalText}>
-                    Total: ${order.OrderData.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0).toFixed(2)}
-                </Text>
-                <TouchableOpacity style={styles.button}>
-                    <Text style={styles.buttonText}>Checkout</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => setState({ type: 'SET_SCREEN', payload: 2, screen: 4 })}
-                >
-                    <Text style={styles.buttonText}>Go to Categories</Text>
-                </TouchableOpacity>
-            </View>
+ 
         </View>
     )
 }

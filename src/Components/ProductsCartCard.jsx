@@ -1,9 +1,41 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { useSelector, useDispatch } from 'react-redux';
+import {
+    addTocart,
+    increaseQuantity,
+    decreaseQuantity,
+    removeFromcartByID
+  } from '../../cartSlice'; 
 
-const ProductsCartCard = ({item, order, index}) => {
+const ProductsCartCard = ({item, index}) => {
+    const randomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
+    const screen = useSelector((state) => state.screen);
+    const grandTotal = useSelector((state) => state. grandTotal);
+    const products = useSelector((state) => state.products);
+    const shoppingCart = useSelector((state) => state.shoppingCart);
+    const dispatch = useDispatch();
+    const handleIncrease = (id) => {
+        dispatch(increaseQuantity(id));
+      };
+    
+      const handleDecrease = (id) => {
+        console.log("+1", id)
+        dispatch(decreaseQuantity(id));
+      };
+    
+      const handleRemove = (id) => {
+        console.log("idclick", id);
+        dispatch(removeFromcartByID(id));
+    };
+
+    const addTocart = (id) => {
+        console.log("+1", id)
+        dispatch(addTocart(id));
+      };
 
     const styles = StyleSheet.create({
         cartItem: {
+            backgroundColor: randomColor,
             flexDirection: 'row',
             marginBottom: 20,
             borderBottomWidth: 1,
@@ -41,6 +73,7 @@ const ProductsCartCard = ({item, order, index}) => {
             padding: 5,
             borderRadius: 5,
             marginHorizontal: 5,
+            width:30
         },
         quantityButtonText: {
             fontSize: 16,
@@ -54,6 +87,8 @@ const ProductsCartCard = ({item, order, index}) => {
             backgroundColor: '#FF3B30',
             padding: 5,
             borderRadius: 5,
+            width:80
+
         },
         removeButtonText: {
             color: '#fff',
@@ -71,21 +106,21 @@ const ProductsCartCard = ({item, order, index}) => {
                 <View style={styles.quantityContainer}>
                     <TouchableOpacity
                         style={styles.quantityButton}
-                        onPress={() => order.decrementQuantity(item.id)}
+                        onPress={() => handleDecrease(item.id)}
                     >
                         <Text style={styles.quantityButtonText}>-</Text>
                     </TouchableOpacity>
                     <Text style={styles.quantityText}>{item.quantity}</Text>
                     <TouchableOpacity
                         style={styles.quantityButton}
-                        onPress={() => order.incrementQuantity(item.id)}
+                        onPress={() => handleIncrease(item.id)}
                     >
                         <Text style={styles.quantityButtonText}>+</Text>
                     </TouchableOpacity>
                 </View>
                 <TouchableOpacity
                     style={styles.removeButton}
-                    onPress={() => order.removeCart(item.id)}
+                    onPress={() => handleRemove(item.id)}
                 >
                     <Text style={styles.removeButtonText}>Remove</Text>
                 </TouchableOpacity>
