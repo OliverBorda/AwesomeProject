@@ -1,12 +1,9 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useCustomer } from '../contexts/CustomerContext';
 import CategoriesGrid from '../components/CategoriesScreen/CategoriesGrid';
 
 const CategoriesScreen = ({ navigation }) => {
-    const [renderTime, setRenderTime] = useState(null);
-    const { customerData } = useCustomer();
-    
+
     const categories = useMemo(() => [
         { id: 1, name: 'Electronics', image: 'https://via.placeholder.com/150' },
         { id: 2, name: 'Clothing', image: 'https://via.placeholder.com/150' },
@@ -15,23 +12,13 @@ const CategoriesScreen = ({ navigation }) => {
         { id: 5, name: 'Test', image: 'https://via.placeholder.com/150' },
     ], []);
 
-    useEffect(() => {
-        const startTime = global.performance.now();
-        console.log('CategoriesScreen renderizado en', startTime, 'ms');
-
-        return () => {
-            const endTime = global.performance.now();
-            setRenderTime(endTime - startTime);
-            console.log('CategoriesScreen renderizado en', endTime - startTime, 'ms');
-        };
-    }, []);
-
     const handleCategoryPress = useCallback((categoryId) => {
         navigation.navigate('Products', { categoryId });
     }, [navigation]);
 
     console.log('CategoriesScreen');
-
+    console.log("=================");
+    console.log("");
 
     return (
         <View style={styles.container}>

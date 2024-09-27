@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
-import { useOrder } from '../contexts/OrderContext';
-import { useCustomer } from '../contexts/CustomerContext';
 import CartItem from '../components/CartScreen/CartItem';
 import OrderSummaryModal from '../components/CartScreen/OrderSummaryModal';
+import { ScrollView, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectCustomerData, setCustomerData } from '../features/customerSlice';
+import { selectOrderInfo,removeProductToCart, incrementProductQuantity, decrementProductQuantity } from '../features/orderSlice';
 
 const CartScreen = ({ navigation }) => {
-    const { orderInfo, setOrderInfo } = useOrder();
-    const { customerData, setCustomerData } = useCustomer();
+    const dispatch = useDispatch();
+    const orderInfo = useSelector(selectOrderInfo);
+    const customerData = useSelector(selectCustomerData);
 
     const [showModal, setShowModal] = useState(false);
     const [localCustomerData, setLocalCustomerData] = useState(customerData);
@@ -16,39 +18,30 @@ const CartScreen = ({ navigation }) => {
         setLocalCustomerData(customerData);
     }, [customerData]);
 
-    const incrementQuantity = (index) => {
-        const updatedItems = [...orderInfo.items];
-        updatedItems[index].quantity = (updatedItems[index].quantity || 1) + 1;
-        setOrderInfo({
-            items: updatedItems,
-            total: updatedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-        });
+    const handleIncrementQuantity = (productId) => {
+        dispatch(incrementProductQuantity(productId));
     };
 
-    const decrementQuantity = (index) => {
-        const updatedItems = [...orderInfo.items];
-        updatedItems[index].quantity = Math.max(updatedItems[index].quantity - 1, 1);
-        setOrderInfo({
-            items: updatedItems,
-            total: updatedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-        });
+    const handleDecrementQuantity = (productId) => {
+        dispatch(decrementProductQuantity(productId));
     };
 
-    const removeFromCart = (index) => {
-        const updatedItems = orderInfo.items.filter((_, i) => i !== index);
-        setOrderInfo({
-            items: updatedItems,
-            total: updatedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-        });
+    const handleRemoveFromCart = (productId) => {
+        dispatch(removeProductToCart(productId));
     };
 
     const handlePay = () => {
-        setCustomerData(localCustomerData);
-        setOrderInfo({ items: [], total: 0 });
+        dispatch(setCustomerData(localCustomerData));
+        // Vaciar el carrito después de la compra
+        orderInfo.items.forEach(item => {
+            dispatch(removeProductToCart(item.id)); // Asegúrate de que la acción vacíe el carrito correctamente
+        });
+        navigation.navigate("Home");
     };
 
     console.log('CartScreen');
-    
+    console.log("=================");
+    console.log("");
 
     return (
         <ScrollView contentContainerStyle={styles.container}>
@@ -56,14 +49,13 @@ const CartScreen = ({ navigation }) => {
             {orderInfo.items.length === 0 ? (
                 <Text style={styles.emptyText}>Your cart is empty</Text>
             ) : (
-                orderInfo.items.map((item, index) => (
+                orderInfo.items.map((item) => (
                     <CartItem
-                        key={index}
+                        key={item.id} 
                         item={item}
-                        index={index}
-                        incrementQuantity={incrementQuantity}
-                        decrementQuantity={decrementQuantity}
-                        removeFromCart={removeFromCart}
+                        incrementQuantity={handleIncrementQuantity}
+                        decrementQuantity={handleDecrementQuantity}
+                        removeFromCart={handleRemoveFromCart}
                     />
                 ))
             )}

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
-const CartItem = ({ item, index, incrementQuantity, decrementQuantity, removeFromCart }) => {
+const CartItem = ({ item, incrementQuantity, decrementQuantity, removeFromCart }) => {
     const [cardColor, setCardColor] = useState('#f9f9f9');
+
     useEffect(() => {
         // Genera un color aleatorio en formato hexadecimal
         const randomColor = `#${Math.floor(Math.random() * 16777215).toString(16)}`;
@@ -10,22 +11,31 @@ const CartItem = ({ item, index, incrementQuantity, decrementQuantity, removeFro
     }, []);
 
     return (
-        <View key={index} style={[styles.cartItem, { backgroundColor: cardColor }]}>
+        <View style={[styles.cartItem, { backgroundColor: cardColor }]}>
             <Image source={{ uri: item.image }} style={styles.cartItemImage} />
             <View style={styles.cartItemDetails}>
                 <Text style={styles.cartItemTitle}>{item.name}</Text>
                 <Text style={styles.cartItemDescription}>{item.description}</Text>
                 <Text style={styles.cartItemPrice}>${item.price.toFixed(2)}</Text>
                 <View style={styles.quantityContainer}>
-                    <TouchableOpacity style={styles.quantityButton} onPress={() => decrementQuantity(index)}>
+                    <TouchableOpacity
+                        style={styles.quantityButton}
+                        onPress={() => decrementQuantity(item.id)} // Usar ID del producto
+                    >
                         <Text style={styles.quantityButtonText}>-</Text>
                     </TouchableOpacity>
                     <Text style={styles.quantityText}>{item.quantity}</Text>
-                    <TouchableOpacity style={styles.quantityButton} onPress={() => incrementQuantity(index)}>
+                    <TouchableOpacity
+                        style={styles.quantityButton}
+                        onPress={() => incrementQuantity(item.id)} // Usar ID del producto
+                    >
                         <Text style={styles.quantityButtonText}>+</Text>
                     </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.removeButton} onPress={() => removeFromCart(index)}>
+                <TouchableOpacity
+                    style={styles.removeButton}
+                    onPress={() => removeFromCart(item.id)} // Usar ID del producto
+                >
                     <Text style={styles.removeButtonText}>Remove</Text>
                 </TouchableOpacity>
             </View>

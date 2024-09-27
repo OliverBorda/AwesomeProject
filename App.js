@@ -1,15 +1,15 @@
 import React from 'react';
 import Routes from './src/routers/routes';
-import { CustomerProvider } from './src/contexts/CustomerContext'; // Ajusta la ruta según tu estructura
-import { OrderProvider } from './src/contexts/OrderContext'; // Ajusta la ruta según tu estructura
+import { Provider } from 'react-redux';
+import store from './store';
 
-export default function App() {
+const App = () => {
   return (
-    <CustomerProvider>
-      <OrderProvider>
-        {console.log('app')}
-        <Routes />
-      </OrderProvider>
-    </CustomerProvider>
+    <Provider store={store}>
+      {console.log('app')}
+      <Routes />
+    </Provider>
   );
 }
+
+export default App;

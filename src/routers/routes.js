@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -7,6 +7,7 @@ import HomeScreen from '../views/HomeScreen';
 import CartScreen from '../views/CartScreen';
 import ProductsScreen from '../views/ProductsScreen';
 import CategoriesScreen from '../views/CategoriesScreen';
+import LoginScreen from "../views/LoginScreen";
 
 export default function Routes() {
 
@@ -30,17 +31,32 @@ export default function Routes() {
                         headerShown: false,
                         // freezeOnBlur: true
                     }}
-                    
+
+                />
+
+                <Stack.Screen
+                    name="Login"
+                    component={LoginScreen}
+                    options={{
+                        headerTitle: 'Login',
+                        headerBackTitleVisible: false,
+                        // freezeOnBlur: true
+                    }}
+
                 />
 
                 <Stack.Screen
                     name="Categories"
                     component={CategoriesScreen}
-                    options={{
-                        headerTitle: 'Categories', 
-                        headerBackTitleVisible: false, 
-                        // freezeOnBlur: true
-                    }}
+                    options={({ navigation }) => ({
+                        headerTitle: 'Categories',
+                        headerBackTitleVisible: false,
+                        headerRight: () => (
+                            <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
+                                <Text>Cart</Text>
+                            </TouchableOpacity>
+                        ),
+                    })}
                 />
                 <Stack.Screen
                     name="Products"

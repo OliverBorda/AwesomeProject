@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { View, Alert } from 'react-native';
-import { useOrder } from '../contexts/OrderContext';
 import ProductGrid from '../components/ProductsScreen/ProductGrid';
 import GoToCartButton from '../components/ProductsScreen/GoToCartButton';
 
+import { View, Alert } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import { addProductToCart, removeProductToCart } from '../features/orderSlice';
+
 const ProductsScreen = ({ route, navigation }) => {
     const { categoryId } = route.params;
-    const { orderInfo, setOrderInfo } = useOrder();
+    const dispatch = useDispatch();
     const [renderTime, setRenderTime] = useState(null);
 
     const products = [
@@ -101,29 +103,16 @@ const ProductsScreen = ({ route, navigation }) => {
             "quantity": 1
         }
     ];
-    
-    useEffect(() => {
-        const startTime = global.performance.now();
-        console.log('ProductsScreen renderizado en', startTime, 'ms');
-
-        return () => {
-            const endTime = global.performance.now();
-            setRenderTime(endTime - startTime);
-            console.log('ProductsScreen renderizado en', endTime - startTime, 'ms');
-        };
-    }, []);
 
     const handleProductPress = (product) => {
-        const newItems = [...orderInfo.items, product];
-        const newTotal = orderInfo.total + product.price;
-        setOrderInfo({
-            items: newItems,
-            total: newTotal
-        });
+        dispatch(addProductToCart(product));
         Alert.alert("Product Added", `${product.name} has been added to your cart.`);
     };
+
     console.log('ProductsScreen');
-    
+    console.log("=================");
+    console.log("");
+
     return (
         <View>
             <ProductGrid
