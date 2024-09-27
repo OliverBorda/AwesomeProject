@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native';
+import { View, Alert } from 'react-native';
 import { useOrder } from '../contexts/OrderContext';
+import ProductGrid from '../components/ProductsScreen/ProductGrid';
+import GoToCartButton from '../components/ProductsScreen/GoToCartButton';
 
 const ProductsScreen = ({ route, navigation }) => {
     const { categoryId } = route.params;
@@ -99,18 +101,17 @@ const ProductsScreen = ({ route, navigation }) => {
             "quantity": 1
         }
     ];
-
+    
     useEffect(() => {
-        const startTime = global.performance.now(); // Tiempo de inicio
+        const startTime = global.performance.now();
         console.log('ProductsScreen renderizado en', startTime, 'ms');
 
         return () => {
-            const endTime = global.performance.now(); // Tiempo de finalización
+            const endTime = global.performance.now();
             setRenderTime(endTime - startTime);
-            console.log('2 ProductsScreen renderizado en', endTime - startTime, 'ms');
+            console.log('ProductsScreen renderizado en', endTime - startTime, 'ms');
         };
     }, []);
-    console.log("ProductsScreen")
 
     const handleProductPress = (product) => {
         const newItems = [...orderInfo.items, product];
@@ -119,84 +120,19 @@ const ProductsScreen = ({ route, navigation }) => {
             items: newItems,
             total: newTotal
         });
-        // Mostrar mensaje de confirmación
         Alert.alert("Product Added", `${product.name} has been added to your cart.`);
     };
-
+    console.log('ProductsScreen');
+    
     return (
         <View>
-            <View style={styles.grid}>
-                {products.filter(product => product.category === categoryId).map((product) => (
-                    <TouchableOpacity
-                        key={product.id}
-                        style={styles.card}
-                        onPress={() => handleProductPress(product)}
-                    >
-                        <Image source={{ uri: product.image }} style={styles.cardImage} />
-                        <Text style={styles.cardTitle}>{product.name}</Text>
-                        <Text style={styles.cardDescription}>{product.description}</Text>
-                        <Text style={styles.cardPrice}>${product.price.toFixed(2)}</Text>
-                    </TouchableOpacity>
-                ))}
-            </View>
-            <View style={styles.btnContainter}>
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("Cart")}>
-                    <Text style={styles.btnText}>Go to cart</Text>
-                </TouchableOpacity>
-            </View>
+            <ProductGrid
+                products={products.filter(product => product.category === categoryId)}
+                onProductPress={handleProductPress}
+            />
+            <GoToCartButton onPress={() => navigation.navigate("Cart")} />
         </View>
     );
 };
-
-const styles = StyleSheet.create({
-    grid: {
-        marginTop: '5%',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
-    },
-    card: {
-        width: '48%',
-        backgroundColor: '#f9f9f9',
-        padding: 10,
-        borderRadius: 5,
-        marginBottom: 20,
-        alignItems: 'center',
-    },
-    cardImage: {
-        width: 100,
-        height: 100,
-        marginBottom: 10,
-    },
-    cardTitle: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        marginBottom: 5,
-    },
-    cardDescription: {
-        fontSize: 14,
-        color: '#666',
-        marginBottom: 5,
-    },
-    cardPrice: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#333',
-    },
-    btnContainter: {
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    btn: {
-        backgroundColor: '#e33f3d',
-        padding: '1%',
-        borderRadius: 30
-    },
-    btnText: {
-        color: '#FFF',
-        fontSize: 20
-    }
-});
 
 export default ProductsScreen;

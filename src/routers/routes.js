@@ -48,7 +48,7 @@ export default function Routes() {
                     options={{
                         headerTitle: 'Products',
                         headerBackTitleVisible: false,
-                        freezeOnBlur: true
+                        // freezeOnBlur: true
                     }}
                 />
 
