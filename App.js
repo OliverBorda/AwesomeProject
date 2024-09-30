@@ -15,6 +15,7 @@ import CategoriesScreen from './src/views/CategoriesScreen';
 export default function App() {
     const screen = useSelector((state) => state.screen);
     const dispatch = useDispatch();
+    let timeRecord = performance.now();
 
     return (
         <SafeAreaView style={styles.container}>
@@ -59,10 +60,10 @@ export default function App() {
                 <Text style={styles.buttonText}>Back</Text>
                </TouchableOpacity>         )}
           </View>
-         {screen === 1 && <HomeScreen />}
-         {screen === 2 && <CategoriesScreen />}
-         {screen === 3 && <ProductsScreen />}
-         {screen === 4 && <CartScreen />}
+         {screen === 1 && <HomeScreen timeRecord={timeRecord}/>}
+         {screen === 2 && <CategoriesScreen timeRecord={timeRecord}/>}
+         {screen === 3 && <ProductsScreen timeRecord={timeRecord} />}
+         {screen === 4 && <CartScreen timeRecord={timeRecord}/>}
           
         </SafeAreaView>
     );

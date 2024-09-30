@@ -8,11 +8,15 @@ import {
     removeFromcartByID
   } from '../../cartSlice'; 
 
-const HomeScreen = () => {
+const HomeScreen = ({timeRecord}) => {
 	const screen = useSelector((state) => state.screen);
     const dispatch = useDispatch();
 console.log('homeScreen', screen);
 
+useEffect(() => {
+	let timeEnd = performance.now();
+	console.log((timeEnd - timeRecord).toFixed(2), 'products');
+}, [])
 
 	return (
 		<View style={styles.centerContent}>

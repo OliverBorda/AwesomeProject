@@ -19,17 +19,14 @@ const ProductsCartCard = ({item, index}) => {
       };
     
       const handleDecrease = (id) => {
-        console.log("+1", id)
         dispatch(decreaseQuantity(id));
       };
     
       const handleRemove = (id) => {
-        console.log("idclick", id);
         dispatch(removeFromcartByID(id));
     };
 
     const addTocart = (id) => {
-        console.log("+1", id)
         dispatch(addTocart(id));
       };
 

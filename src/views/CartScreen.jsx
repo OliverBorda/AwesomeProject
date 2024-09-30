@@ -4,7 +4,12 @@ import ProductsCartCard from '../Components/ProductsCartCard';
 import { useSelector } from 'react-redux';
 
 
-const CartScreen = () => {
+const CartScreen = ({timeRecord}) => {
+
+    useEffect(() => {
+        let timeEnd = performance.now();
+        console.log((timeEnd - timeRecord).toFixed(2), 'products');
+    }, [])
 
     console.log('cart');
     const screen = useSelector((state) => state.screen);

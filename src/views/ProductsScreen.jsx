@@ -3,14 +3,14 @@ import { FlatList, StyleSheet, Text, View } from 'react-native'
 import ProductsCard from '../Components/ProductsCard';
 import { useSelector } from 'react-redux';
 
-const ProductsScreen = ({ state, setState, time, order }) => {
+const ProductsScreen = ({ setState, timeRecord, order }) => {
 
     const products = useSelector((state) => state.products);
     const randomColor = `#${Math.floor(Math.random()*16777215).toString(16)}`;
 
     useEffect(() => {
         let timeEnd = performance.now();
-        console.log((timeEnd - time).toFixed(2), 'products');
+        console.log((timeEnd - timeRecord).toFixed(2), 'products');
     }, [])
 
     const navigate = (product) => {
